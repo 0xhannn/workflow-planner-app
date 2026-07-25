@@ -1,5 +1,5 @@
 /* Workflow Planner PWA service worker — minimal cache for installability + offline shell */
-const CACHE = 'workflow-pwa-v1';
+const CACHE = 'workflow-pwa-v2-phpromo';
 const PRECACHE = [
   '/',
   '/inwork',
@@ -31,6 +31,16 @@ self.addEventListener('fetch', (event) => {
   const req = event.request;
   if (req.method !== 'GET') return;
   const url = new URL(req.url);
+  // Promo + banners: always network-first (never sticky-cache ads/update)
+  if (
+    url.pathname.indexOf('ph-promo') !== -1 ||
+    url.pathname.indexOf('update-banner') !== -1
+  ) {
+    event.respondWith(
+      fetch(req).then((res) => res).catch(() => caches.match(req))
+    );
+    return;
+  }
   // Network-first for HTML/API so app stays fresh; cache-first for static icons
   if (url.pathname.startsWith('/static/')) {
     event.respondWith(
