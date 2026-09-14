@@ -112,3 +112,16 @@ Baseline saat handoff dibuat:
 ## 2026-09-14
 
 - Menambahkan durable handoff untuk local-first boundaries, admin/session, Windows updater, shared promo/banner context, dan verification rules.
+
+
+## Audit supplement — 2026-09-14
+
+- Branch utama terverifikasi di GitHub: `main`
+- HEAD branch saat supplement dibuat: `916c8463dba27bac05e4c462bf46bc7c351b8478`
+- Perubahan ini hanya memperbarui dokumentasi handoff; source code, schema, API, environment, dan deployment tidak diubah.
+- **Schema/API:** supplement ini tidak menambah atau mengubah schema/API. Detail kontrak existing mengikuti bagian sebelumnya dan source code branch ini.
+- **Test/build:** tidak dijalankan ulang pada supplement dokumentasi ini; hasil aktual wajib dicatat setelah perubahan code berikutnya.
+- **Deployment:** tidak ada deployment dari perubahan ini. Status live wajib diverifikasi terhadap SHA branch/deployment sebelum diklaim.
+- **Rollback:** rollback dokumentasi dilakukan dengan revert commit GitHub yang dibuat oleh operasi ini; jangan reset atau revert commit source code.
+- **Blocker:** tidak ada blocker baru yang diverifikasi oleh operasi dokumentasi ini; ikuti blocker existing di bagian sebelumnya.
+- **Next step:** setiap perubahan code yang masuk branch utama wajib menambahkan log berisi tanggal, SHA, file/area, schema/API, test, deploy, blocker, dan rollback.
