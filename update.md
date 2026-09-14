@@ -97,14 +97,37 @@ Setelah perubahan:
 
 <!-- AUTO-CHANGELOG:START -->
 ## Status `main` terbaru — otomatis
+- Commit: `47aa327`
+- Full SHA: `47aa32797c94dc0af5ac105d62e29566e9d2c2eb`
+- Waktu commit: `2026-09-14T08:31:06+07:00`
+- Author: 0xhannn
+- Message: docs: add standardized agent takeover rules
 
-Baseline saat handoff dibuat:
-
-- Commit: `0cec1c3`
-- Message: `fix(v1.0.4): rewel PH promo — close only 12s then full banner returns`
-- Tanggal handoff: 2026-09-14
-
-> Akan disegarkan otomatis pada push code berikutnya ke `main`.
+### File berubah
+```text
+A	AGENTS.md
+```
+### Diff stat
+```text
+ AGENTS.md | 28 ++++++++++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
+```
+### Riwayat commit terbaru
+```text
+47aa327 | 2026-09-14T08:31:06+07:00 | 0xhannn | docs: add standardized agent takeover rules
+73a081c | 2026-09-14T09:25:06+08:00 | 0xhannn | docs: complete repository handoff metadata
+916c846 | 2026-09-14T07:57:53+07:00 | 0xhannn | ci: keep agent handoff synced with main
+e93bb18 | 2026-09-14T07:55:27+07:00 | 0xhannn | docs: add durable agent handoff
+0cec1c3 | 2026-07-25T08:32:23+08:00 | King | fix(v1.0.4): rewel PH promo — close only 12s then full banner returns
+8a2d536 | 2026-07-25T08:16:15+08:00 | King | fix: force PH promo load via update-banner + SW cache bust
+ec1fb9a | 2026-07-25T08:03:47+08:00 | King | feat: sticky PH-Chain + PH-Shop promo banner (self-healing)
+c798a6f | 2026-07-24T12:07:44+08:00 | King | fix: Windows banner prefers update.bat command
+cd5b318 | 2026-07-24T12:07:19+08:00 | King | feat: 9router-style update flow copy command then stop app (v1.0.3)
+761eeb1 | 2026-07-24T11:50:08+08:00 | King | fix: restart app after one-click update so version refreshes (v1.0.2)
+4c09eb5 | 2026-07-24T11:42:36+08:00 | King | release: Workflow Planner public v1.0.1
+03ccc70 | 2026-07-24T11:16:31+08:00 | King | fix: custom Workflow favicon + restore admin PIN session
+```
+> Otomatis. Keputusan arsitektur/produk tetap wajib diperbarui manual di bagian atas.
 <!-- AUTO-CHANGELOG:END -->
 
 # Change Log Manual
