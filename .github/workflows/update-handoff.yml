@@ -1,0 +1,57 @@
+name: Update agent handoff
+on:
+  push:
+    branches: [main]
+    paths-ignore: [update.md, .github/workflows/update-handoff.yml]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  update-handoff:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 50}
+      - name: Refresh update.md
+        shell: bash
+        run: |
+          set -euo pipefail
+          SHA="$GITHUB_SHA"; SHORT="$(git rev-parse --short "$SHA")"; AUTHOR="$(git show -s --format='%an' "$SHA")"; DATE="$(git show -s --format='%cI' "$SHA")"; SUBJECT="$(git show -s --format='%s' "$SHA")"; BEFORE="${{ github.event.before }}"; BRANCH="${GITHUB_REF_NAME:-main}"
+          if [ -n "$BEFORE" ] && [ "$BEFORE" != "0000000000000000000000000000000000000000" ] && git cat-file -e "$BEFORE^{commit}" 2>/dev/null; then CHANGED="$(git diff --name-status "$BEFORE" "$SHA" || true)"; STAT="$(git diff --stat "$BEFORE" "$SHA" || true)"; else CHANGED="$(git show --format= --name-status "$SHA" || true)"; STAT="$(git show --format= --stat "$SHA" || true)"; fi
+          RECENT="$(git log -30 --pretty=format:'%h | %cI | %an | %s' | grep -v 'docs: update handoff log' | head -20 || true)"
+          cat > /tmp/block <<EOF
+          <!-- AUTO-CHANGELOG:START -->
+          ## Status \`$BRANCH\` terbaru — otomatis
+          - Commit: \`$SHORT\`
+          - Full SHA: \`$SHA\`
+          - Waktu commit: \`$DATE\`
+          - Author: $AUTHOR
+          - Message: $SUBJECT
+
+          ### File berubah
+          \`\`\`text
+          ${CHANGED:-Tidak ada daftar file.}
+          \`\`\`
+          ### Diff stat
+          \`\`\`text
+          ${STAT:-Tidak ada diff stat.}
+          \`\`\`
+          ### Riwayat commit terbaru
+          \`\`\`text
+          ${RECENT:-Belum ada riwayat tambahan.}
+          \`\`\`
+          > Otomatis. Keputusan arsitektur/produk tetap wajib diperbarui manual di bagian atas.
+          <!-- AUTO-CHANGELOG:END -->
+          EOF
+          python - <<'PY'
+          from pathlib import Path
+          import re
+          p=Path('update.md'); t=p.read_text(); b=Path('/tmp/block').read_text().strip(); u,c=re.subn(r'<!-- AUTO-CHANGELOG:START -->.*?<!-- AUTO-CHANGELOG:END -->',b,t,flags=re.S)
+          if c != 1: raise SystemExit('AUTO-CHANGELOG markers missing/duplicated')
+          p.write_text(u.rstrip()+'\n')
+          PY
+      - name: Commit refresh
+        run: |
+          git config user.name "github-actions[bot]"; git config user.email "41898282+github-actions[bot]@users.noreply.github.com"; git add update.md
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "docs: update handoff log [skip ci]"; git push
